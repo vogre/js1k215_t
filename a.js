@@ -16,6 +16,11 @@ for (i = 0; i<a.length; i++)
 }
 }
 tt();
+function mx(){
+    tt();
+    g.bufferData(g.ARRAY_BUFFER, a, g.DYNAMIC_DRAW);
+    g.drawArrays(g.TRIANGLES,0,3300);
+}
 b = g.createBuffer();
 g.bindBuffer(g.ARRAY_BUFFER, b);
 g.bufferData(g.ARRAY_BUFFER, a, g.DYNAMIC_DRAW);
@@ -43,7 +48,11 @@ s.onaudioprocess = function(e){
     var d = e.outputBuffer.getChannelData(0);
     console.log('x');
     for (var j=0; j<d.length; j++)
-        d[j] = a[(y+j/4)%a.length]*0.2;
+        d[j] = a[((y+j)/96)%a.length]*0.2;
     y += d.length;
 }
 s.connect(m.destination);
+requestAnimationFrame(function z(){
+    mx();
+    requestAnimationFrame(z);
+});
